@@ -2,4 +2,5 @@
 
 # 🌠 Computer Vision
 
-- [x] LeNet5
+- [] LeNet5
+- [] AlexNet
