@@ -2,4 +2,4 @@
 
 # 🌠 Computer Vision
 
-[LeNet5]
+- [x] LeNet5
