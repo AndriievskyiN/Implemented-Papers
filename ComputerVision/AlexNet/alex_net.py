@@ -7,7 +7,7 @@ class AlexNet(nn.Module):
     def __init__(self, in_channels, num_classes):
         super(AlexNet, self).__init__() 
         # Convolutional layers
-        self.conv1 = nn.Conv2d(in_channels, 96, kernel_size=11, stride=4, padding=0)
+        self.conv1 = nn.Conv2d(in_channels, 96, kernel_size=11, stride=4, padding=2)
         self.conv2 = nn.Conv2d(96, 256, kernel_size=5, stride=1, padding=2)
         self.conv3 = nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1)
         self.conv4 = nn.Conv2d(384, 384, kernel_size=3, stride=1, padding=1)
@@ -24,7 +24,6 @@ class AlexNet(nn.Module):
         self.norm = nn.LocalResponseNorm(size=5, k=2)
         self.droput = nn.Dropout(0.5)
         self.relu = nn.ReLU()
-        self.softmax = nn.Softmax(dim=1)
 
         # Initialize the weights
         self._init_weights()
@@ -38,7 +37,7 @@ class AlexNet(nn.Module):
         x = self.flatten(x)                                    # (B, 9216)
         x = self.droput(self.relu(self.fc1(x)))                # (B, 4096)
         x = self.droput(self.relu(self.fc2(x)))                # (B, 4096)
-        x = self.softmax(self.fc3(x))                          # (B, num_classes)
+        x = self.fc3(x)                                        # (B, num_classes)
         return x
 
     def _init_weights(self):
@@ -60,5 +59,3 @@ class AlexNet(nn.Module):
 x = torch.randn(64, 3, 227, 227)
 model = AlexNet(x.shape[1], 1000)
 print(model(x).shape)
-
-    
