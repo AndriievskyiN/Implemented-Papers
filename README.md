@@ -1,8 +1,5 @@
 # Implemented Papers
 
-#### In Progress: Word2Vec
-
-
 # 🌠 Computer Vision
 
 - [ ] LeNet5
@@ -20,7 +17,7 @@
 
 # 📜 Natural Language Processing
 
-- [ ] Word2Vec (In Progress)
+- [x] Word2Vec 
 - [ ] Seq2Seq
 - [ ] GloVe
 - [ ] Transformer
