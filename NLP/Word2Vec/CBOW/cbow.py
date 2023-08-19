@@ -10,7 +10,6 @@ class CBOW(nn.Module):
 
     def forward(self, x):
         x = torch.mean(self.embedding(x), dim=1) # (batch_size, d_model)
-        print(x.shape)
         x = self.fc1(x) # (batch_size, hidden_dim)
         x = self.fc2(x) # (batch_size, vocab_size)
         return x
