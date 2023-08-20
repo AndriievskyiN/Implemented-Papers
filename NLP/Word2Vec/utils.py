@@ -158,7 +158,7 @@ def get_analogy(word1, word2, word3, model, word_to_idx, idx_to_word, unk_token,
     # Access the embedding layer of your model
     embedding_layer = model.embedding  # Replace with the actual name of your embedding layer
 
-    # Get the embedding vector for the word
+    # Get the embedding vector for the words
     word1_emb = embedding_layer.weight[word1_index]
     word2_emb = embedding_layer.weight[word2_index]
     word3_emb = embedding_layer.weight[word3_index]
@@ -169,13 +169,16 @@ def get_analogy(word1, word2, word3, model, word_to_idx, idx_to_word, unk_token,
 
     # Calculate cosine similarity between the analogy vector and all word embeddings
     similarity_scores = cosine_similarity(analogy_vector_cpu.reshape(1, -1), word_embeddings_cpu)
-    
+
     # Find the indices of the n most similar words
     most_similar_indices = np.argsort(similarity_scores[0])[-n:][::-1]
 
     # Get the words associated with the most similar indices and their similarity scores
     similar_words = [idx_to_word[idx] for idx in most_similar_indices]
     similar_scores = [similarity_scores[0][idx] for idx in most_similar_indices]
+
+    # Exclude the input words (word1, word2, and word3) from the list of similar words
+    similar_words = [word for word in similar_words if word not in [word1, word2, word3]]
 
     for word, score in zip(similar_words, similar_scores):
         print(f"Word: {word}, Cosine Similarity: {score:.4f}")
@@ -215,6 +218,9 @@ def get_most_similar_words(input_word, model, word_to_idx, idx_to_word, unk_toke
     # Get the words associated with the most similar indices and their similarity scores
     similar_words = [idx_to_word[idx] for idx in most_similar_indices]
     similar_scores = [similarity_scores[0][idx] for idx in most_similar_indices]
+
+    # Exclude the input word from the list of similar words
+    similar_words = [word for word in similar_words if word != input_word]
 
     print(f"Most Similar Words to '{input_word}':")
     for word, score in zip(similar_words, similar_scores):
